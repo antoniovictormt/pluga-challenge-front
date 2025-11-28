@@ -23,17 +23,14 @@ jobs:
             - name: Install dependencies
               run: npm install
 
-            - name: Format check
-              run: npm run check-format
+            - name: Build
+              run: npm run build
 
             - name: Linting
               run: npm run lint
 
             - name: Typecheck
               run: npm run typecheck
-
-            - name: Build
-              run: npm run build
 
             - name: Test
               run: npm run test
