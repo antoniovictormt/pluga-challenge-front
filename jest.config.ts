@@ -17,11 +17,11 @@ const config: Config = {
     coverageDirectory: "coverage",
     coverageProvider: "v8",
     testEnvironment: "jsdom",
-    setupFilesAfterEnv: ["<rootDir>/.jest/setup.ts"],
+  setupFilesAfterEnv: ["<rootDir>/.jest/setup.ts"],
     testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],
     moduleNameMapper: {
         "^@/(.*)$": "<rootDir>/src/$1"
-    }
+    },
 }
 
 export default createJestConfig(config)
