@@ -1,66 +1,333 @@
-import Image from "next/image"
+"use client"
 
-export default function Home() {
+import Image from "next/image"
+import { useEffect, useRef, useState } from "react"
+
+import { PlugaApp } from "@/types"
+
+
+
+export default function App() {
+    const [apps, setApps] = useState<PlugaApp[]>([])
+
+    const [search, setSearch] = useState<string>("")
+    const [page, setPage] = useState<number>(1)
+
+    const [selectedApp, setSelectedApp] = useState<PlugaApp | null>(null)
+    const [lastSelectedApps, setLastSelectedApps] = useState<PlugaApp[]>([])
+
+    const modalRef = useRef<HTMLDialogElement | null>(null)
+
+    useEffect(() => {
+        ;(async () => {
+            try {
+                const response = await fetch(
+                    "https://pluga.co/ferramentas_search.json"
+                )
+                const data = (await response.json()) as PlugaApp[]
+                setApps(data)
+
+                const appsByAppId = data.reduce<Record<string, PlugaApp>>(
+                    (acc, app) => {
+                        acc[app.app_id] = app
+                        return acc
+                    },
+                    {}
+                )
+
+                const stored = localStorage.getItem("lastSelectedApps")
+                const storedLastSelectedAppIds = stored
+                    ? (JSON.parse(stored) as string[])
+                    : []
+                const restored = storedLastSelectedAppIds
+                    .map(appId => appsByAppId[appId])
+                    .filter((a): a is PlugaApp => Boolean(a))
+
+                setLastSelectedApps(restored)
+            } catch (err) {
+                // eslint-disable-next-line no-console
+                console.error("🚀 ~ App ~ err:", err)
+            }
+        })()
+    }, [])
+
+    function handleSearch(value: string): void {
+        setSearch(value)
+        setPage(1)
+    }
+
+    function handleSelectedApp(app: PlugaApp): void {
+        setSelectedApp(app)
+
+        setLastSelectedApps(prev => {
+            const filtered = prev.filter(a => a.app_id !== app.app_id)
+            const next = [...filtered, app].slice(-3)
+            const newLastSelectedAppIds = next.map(a => a.app_id)
+            try {
+                localStorage.setItem(
+                    "lastSelectedApps",
+                    JSON.stringify(newLastSelectedAppIds)
+                )
+            } catch(err) {
+                // eslint-disable-next-line no-console
+                console.error(err)
+            }
+            return next
+        })
+
+        if (
+            modalRef.current &&
+            typeof modalRef.current.showModal === "function"
+        ) {
+            modalRef.current.showModal()
+        }
+    }
+
+    const normalizedSearch = search.toLowerCase()
+    const filteredApps = apps.filter(app =>
+        app.name.toLowerCase().includes(normalizedSearch)
+    )
+
+    const maxPage = Math.max(1, Math.ceil(filteredApps.length / 12))
+    const pagedFilteredApps = filteredApps.slice((page - 1) * 12, page * 12)
+
     return (
-        <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-            <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between bg-white px-16 py-32 sm:items-start dark:bg-black">
-                <Image
-                    className="dark:invert"
-                    src="/next.svg"
-                    alt="Next.js logo"
-                    width={100}
-                    height={20}
-                    priority
-                />
-                <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-                    <h1 className="max-w-xs text-3xl leading-10 font-semibold tracking-tight text-black dark:text-zinc-50">
-                        To get started, edit the page.tsx file.
-                    </h1>
-                    <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-                        Looking for a starting point or more instructions? Head
-                        over to{" "}
-                        <a
-                            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                            className="font-medium text-zinc-950 dark:text-zinc-50"
-                        >
-                            Templates
-                        </a>{" "}
-                        or the{" "}
-                        <a
-                            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                            className="font-medium text-zinc-950 dark:text-zinc-50"
-                        >
-                            Learning
-                        </a>{" "}
-                        center.
-                    </p>
-                </div>
-                <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-                    <a
-                        className="bg-foreground text-background flex h-12 w-full items-center justify-center gap-2 rounded-full px-5 transition-colors hover:bg-[#383838] md:w-[158px] dark:hover:bg-[#ccc]"
-                        href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                        target="_blank"
-                        rel="noopener noreferrer"
+        <>
+            <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 p-6">
+                <h1 className="text-center text-3xl">
+                    Pluga Challenge Front
+                </h1>
+
+                <label className="input w-full shadow-sm hover:shadow-lg">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="size-4 opacity-50"
                     >
-                        <Image
-                            className="dark:invert"
-                            src="/vercel.svg"
-                            alt="Vercel logomark"
-                            width={16}
-                            height={16}
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
                         />
-                        Deploy Now
-                    </a>
-                    <a
-                        className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/8 px-5 transition-colors hover:border-transparent hover:bg-black/4 md:w-[158px] dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
-                        href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Documentation
-                    </a>
-                </div>
-            </main>
-        </div>
+                    </svg>
+                    <input
+                        type="search"
+                        placeholder="Buscar ferramenta"
+                        value={search}
+                        onChange={e => handleSearch(e.target.value)}
+                    />
+                </label>
+
+                {apps.length === 0 ? (
+                    <div className="text-center">
+                        <span className="loading loading-spinner" />
+                    </div>
+                ) : pagedFilteredApps.length === 0 ? (
+                    <div className="text-center">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="mb-2 inline size-9"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M15.182 16.318A4.486 4.486 0 0 0 12.016 15a4.486 4.486 0 0 0-3.198 1.318M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0ZM9.75 9.75c0 .414-.168.75-.375.75S9 10.164 9 9.75 9.168 9 9.375 9s.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Zm5.625 0c0 .414-.168.75-.375.75s-.375-.336-.375-.75.168-.75.375-.75.375.336.375.75Zm-.375 0h.008v.015h-.008V9.75Z"
+                            />
+                        </svg>
+                        <p>{`Nenhum app encontrado para "${search}".`}</p>
+                    </div>
+                ) : (
+                    <>
+                        <div className="grid grid-cols-4 gap-6">
+                            {pagedFilteredApps.map(app => (
+                                <a
+                                    key={app.app_id}
+                                    onClick={() => handleSelectedApp(app)}
+                                    className="card card-sm group cursor-pointer shadow-sm transition hover:shadow-lg"
+                                >
+                                    <figure
+                                        style={{ backgroundColor: app.color }}
+                                        className="p-6"
+                                    >
+                                        <Image
+                                            src={app.icon}
+                                            alt={app.name}
+                                            width={64}
+                                            height={64}
+                                            className="transition group-hover:scale-110"
+                                        />
+                                    </figure>
+                                    <div className="card-body min-h-17 justify-center text-center">
+                                        <h4 className="text-base-100">
+                                            {app.name}
+                                        </h4>
+                                    </div>
+                                </a>
+                            ))}
+                        </div>
+
+                        <div className="text-center">
+                            <div className="join">
+                                <button
+                                    onClick={() =>
+                                        setPage(Math.max(page - 1, 1))
+                                    }
+                                    className={`join-item btn ${page === 1 ? "btn-disabled" : ""}`}
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor"
+                                        className="size-4"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M15.75 19.5 8.25 12l7.5-7.5"
+                                        />
+                                    </svg>
+                                </button>
+
+                                {Array.from(
+                                    { length: maxPage },
+                                    (_, i) => i + 1
+                                ).map(i => (
+                                    <button
+                                        key={`p${i}`}
+                                        onClick={() => setPage(i)}
+                                        className={`join-item btn ${i === page ? "btn-active" : ""}`}
+                                    >
+                                        {i}
+                                    </button>
+                                ))}
+
+                                <button
+                                    onClick={() =>
+                                        setPage(Math.min(page + 1, maxPage))
+                                    }
+                                    className={`join-item btn ${page === maxPage ? "btn-disabled" : ""}`}
+                                    data-testid="next-page-btn"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor"
+                                        className="size-4"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                                        />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </>
+                )}
+            </div>
+
+            <dialog
+                className="modal"
+                ref={modalRef}
+                onClose={() => setSelectedApp(null)}
+                onCancel={() => setSelectedApp(null)}
+            >
+                {selectedApp && (
+                    <div className="modal-box flex flex-col gap-6">
+                        <div className="mx-auto">
+                            <div className="flex gap-6">
+                                <figure
+                                    style={{
+                                        backgroundColor: selectedApp.color
+                                    }}
+                                    className="rounded-full p-10"
+                                >
+                                    <Image
+                                        src={selectedApp.icon}
+                                        alt={selectedApp.name}
+                                        width={64}
+                                        height={64}
+                                    />
+                                </figure>
+                                <div className="py-6">
+                                    <h2 className="mb-4 text-lg">
+                                        {selectedApp.name}
+                                    </h2>
+                                    {selectedApp.link && (
+                                        <a
+                                            href={selectedApp.link}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                            className="btn btn-primary"
+                                        >
+                                            Acessar
+                                        </a>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        <h2 className="text-center">
+                            Últimas ferramentas visualizadas
+                        </h2>
+                        <div className="grid grid-cols-3 gap-6">
+                            {[...lastSelectedApps].reverse().map(app => (
+                                <a
+                                    key={app.app_id}
+                                    onClick={() => handleSelectedApp(app)}
+                                    className="card card-sm group cursor-pointer shadow-sm transition hover:shadow-lg"
+                                >
+                                    <figure
+                                        style={{ backgroundColor: app.color }}
+                                        className="p-6"
+                                    >
+                                        <Image
+                                            src={app.icon}
+                                            alt={app.name}
+                                            width={64}
+                                            height={64}
+                                            className="transition group-hover:scale-110"
+                                        />
+                                    </figure>
+                                    <div className="card-body min-h-17 justify-center text-center">
+                                        <h4 className="text-base-100">
+                                            {app.name}
+                                        </h4>
+                                    </div>
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                <form
+                    method="dialog"
+                    className="modal-backdrop"
+                    onClick={e => {
+                        if (e.target === e.currentTarget) {
+                            modalRef.current?.close?.()
+
+                            setSelectedApp(null)
+                        }
+                    }}
+                >
+                    <button type="submit" className="sr-only">
+                        Fechar
+                    </button>
+                </form>
+            </dialog>
+        </>
     )
 }
