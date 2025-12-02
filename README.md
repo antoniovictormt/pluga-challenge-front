@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📦 Pluga Challenge Front
 
-## Getting Started
+Aplicação desenvolvida em **Next.js + TypeScript** para o desafio técnico da **Pluga**.
 
-First, run the development server:
+![Banner](https://via.placeholder.com/1200x300?text=Pluga+Challenge+Front)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 📸 Demonstração da Interface
+
+### ⭐ Lista de Aplicações
+![Lista](https://via.placeholder.com/900x500?text=Listagem+de+Apps)
+
+### ⭐ Modal de Detalhes
+![Modal](https://via.placeholder.com/900x500?text=Modal+de+Detalhes)
+
+---
+
+## 🚀 Funcionalidades
+
+| Funcionalidade | Descrição |
+|---------------|-----------|
+| 🔍 Busca em tempo real | Filtra ferramentas enquanto o usuário digita |
+| 📄 Paginação | Navegação entre páginas baseada no total filtrado |
+| 🧰 Modal de detalhes | Exibe informações completas da ferramenta |
+| 🕒 Histórico de visualizações | Armazena no `localStorage` as últimas ferramentas abertas |
+| 🌐 Consumo da API oficial | Busca dados de https://pluga.co/ferramentas_search.json |
+| 🌎 Estado Global | Utiliza Context API para compartilhar estado |
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+| Categoria | Tecnologias |
+|----------|-------------|
+| **Frontend** | Next.js, React, TypeScript |
+| **Estilização** | Tailwind CSS, DaisyUI |
+| **Testes** | Jest, Testing Library |
+| **Ferramentas** | ESLint, Prettier |
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
+src/
+  app/
+  components/
+  context/
+  service/
+  types.ts
+public/
+jest.config.ts
+tailwind.config.ts
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ▶️ Como Rodar o Projeto
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm install
+npm run dev
+```
 
-## Learn More
+Acesse:  
+👉 http://localhost:3000
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🧪 Testes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm run test
+```
 
-## Deploy on Vercel
+Gera cobertura completa em:  
+📁 `/coverage`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 🧹 Scripts
+
+| Script | Ação |
+|--------|------|
+| `npm run dev` | Inicia o ambiente de desenvolvimento |
+| `npm run build` | Gera build de produção |
+| `npm start` | Executa build |
+| `npm run lint` | Executa ESLint |
+| `npm run format` | Ajusta formatação com Prettier |
+| `npm test` | Roda a suíte de testes |
+
+---
+
+## 📄 Licença
+
+Projeto desenvolvido exclusivamente para fins de **desafio técnico**.
+
+---
+
+## ✨ Créditos
+
+Feito com ❤️ por **Antonio Melo**.
