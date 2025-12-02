@@ -30,5 +30,7 @@
         ".next/dev/types/**/*.ts",
         "**/*.mts"
     ],
+    "files": [".jest/setup.ts"],
+
     "exclude": ["node_modules"]
 }

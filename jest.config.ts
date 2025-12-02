@@ -8,6 +8,14 @@ const createJestConfig = nextJest({
 const config: Config = {
     clearMocks: true,
     collectCoverage: true,
+    collectCoverageFrom: [
+        "src/**/*.ts(x)?",
+        "!src/**/**/type(s)?.ts",
+        "!src/**/**/schema.ts",
+        "!src/app/layout.tsx",
+        "!src/**/service/*.ts",
+        "!src/**/context/*.tsx"
+    ],
     coverageDirectory: "coverage",
     coverageProvider: "v8",
     testEnvironment: "jsdom",
@@ -15,6 +23,9 @@ const config: Config = {
     testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],
     moduleNameMapper: {
         "^@/(.*)$": "<rootDir>/src/$1"
+    },
+    transform: {
+        "^.+\\.(ts|tsx)$": "ts-jest"
     }
 }
 
