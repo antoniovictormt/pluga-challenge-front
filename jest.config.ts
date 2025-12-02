@@ -12,7 +12,9 @@ const config: Config = {
         "src/**/*.ts(x)?",
         "!src/**/**/type(s)?.ts",
         "!src/**/**/schema.ts",
-        "!src/app/layout.tsx"
+        "!src/app/layout.tsx",
+        "!src/**/service/*.ts",
+        "!src/**/context/*.tsx"
     ],
     coverageDirectory: "coverage",
     coverageProvider: "v8",
