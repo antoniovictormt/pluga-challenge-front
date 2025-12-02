@@ -1,35 +1,103 @@
-# Pluga Challenge Front
+# 📦 Pluga Challenge Front
 
-Nós da [Pluga](https://pluga.co) nos orgulhamos muito do nosso time e sempre queremos
-boas pessoas para acrescentar com a gente, por isso preparamos esse desafio de avaliação.
+Aplicação desenvolvida em **Next.js + TypeScript** para o desafio técnico da **Pluga**.
 
-## Desafio
+![Banner](https://via.placeholder.com/1200x300?text=Pluga+Challenge+Front)
 
-A código nesse repositório é uma simples aplicação web baseada em
-[React](https://react.dev). Ela lista os apps integrados à Pluga, apresentando
-as funcionalidades de busca e paginação, além de um modal que guarda os últimos
-apps acessados. Apesar de funcional, o código está muito mal organizado,
-totalmente concentrado em um único módulo e sem boas práticas aplicadas.
+---
 
-Sua tarefa é fazer um fork desse repositório e aplicar um bom design de código,
-seguindo os requisitos listados abaixo e claro, mantendo a aplicação funcional.
+## 📸 Demonstração da Interface
 
-## Requisitos
+### ⭐ Lista de Aplicações
+![Lista](https://via.placeholder.com/900x500?text=Listagem+de+Apps)
 
-- Migrar para o framework [Next.js](https://nextjs.org);
-- Migrar para a linguagem [Typescript](https://www.typescriptlang.org);
-- Centralizar o estado com [Context Hooks](https://react.dev/reference/react/hooks#context-hooks);
-- Escrever testes com [Jest](https://jestjs.io);
-- Configurar um CI/CD com [GitHub Actions](https://github.com/features/actions);
-- Escrever um README com uma boa descrição do projeto.
+### ⭐ Modal de Detalhes
+![Modal](https://via.placeholder.com/900x500?text=Modal+de+Detalhes)
 
-## Considerações
+---
 
-Sua entrega será avaliada principalmente pela organização do seu projeto,
-busque entregar um código de fácil manutenção, baixo acoplamento e alta coesão.
+## 🚀 Funcionalidades
 
-Caso aceite o desafio e submeta seu projeto, vamos avaliar seu código com muita
-atenção para retornar com a nossa visão de quais são os pontos positivos do seu
-teste e os pontos a melhorar.
+| Funcionalidade | Descrição |
+|---------------|-----------|
+| 🔍 Busca em tempo real | Filtra ferramentas enquanto o usuário digita |
+| 📄 Paginação | Navegação entre páginas baseada no total filtrado |
+| 🧰 Modal de detalhes | Exibe informações completas da ferramenta |
+| 🕒 Histórico de visualizações | Armazena no `localStorage` as últimas ferramentas abertas |
+| 🌐 Consumo da API oficial | Busca dados de https://pluga.co/ferramentas_search.json |
+| 🌎 Estado Global | Utiliza Context API para compartilhar estado |
 
-Muito obrigado e bom coding. :)
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+| Categoria | Tecnologias |
+|----------|-------------|
+| **Frontend** | Next.js, React, TypeScript |
+| **Estilização** | Tailwind CSS, DaisyUI |
+| **Testes** | Jest, Testing Library |
+| **Ferramentas** | ESLint, Prettier |
+
+---
+
+## 📁 Estrutura do Projeto
+
+```
+src/
+  app/
+  components/
+  context/
+  service/
+  types.ts
+public/
+jest.config.ts
+tailwind.config.ts
+```
+
+---
+
+## ▶️ Como Rodar o Projeto
+
+```bash
+npm install
+npm run dev
+```
+
+Acesse:  
+👉 http://localhost:3000
+
+---
+
+## 🧪 Testes
+
+```bash
+npm run test
+```
+
+Gera cobertura completa em:  
+📁 `/coverage`
+
+---
+
+## 🧹 Scripts
+
+| Script | Ação |
+|--------|------|
+| `npm run dev` | Inicia o ambiente de desenvolvimento |
+| `npm run build` | Gera build de produção |
+| `npm start` | Executa build |
+| `npm run lint` | Executa ESLint |
+| `npm run format` | Ajusta formatação com Prettier |
+| `npm test` | Roda a suíte de testes |
+
+---
+
+## 📄 Licença
+
+Projeto desenvolvido exclusivamente para fins de **desafio técnico**.
+
+---
+
+## ✨ Créditos
+
+Feito com ❤️ por **Antonio Melo**.
