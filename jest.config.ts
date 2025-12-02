@@ -21,6 +21,9 @@ const config: Config = {
     testPathIgnorePatterns: ["<rootDir>/node_modules/", "<rootDir>/.next/"],
     moduleNameMapper: {
         "^@/(.*)$": "<rootDir>/src/$1"
+    },
+    transform: {
+        "^.+\\.(ts|tsx)$": "ts-jest"
     }
 }
 

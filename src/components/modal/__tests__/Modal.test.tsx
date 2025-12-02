@@ -2,7 +2,7 @@ import { fireEvent, render, screen } from "@testing-library/react"
 
 import { PlugaApp } from "@/types"
 
-import { AppModal } from ".."
+import { Modal } from ".."
 
 describe("AppModal component", () => {
     const app1: PlugaApp = {
@@ -38,7 +38,7 @@ describe("AppModal component", () => {
 
     it("renders selectedApp info (name, image and external link)", () => {
         const { container } = render(
-            <AppModal
+            <Modal
                 selectedApp={app1}
                 lastSelectedApps={[app2, app3]}
                 onSelect={onSelect}
@@ -65,7 +65,7 @@ describe("AppModal component", () => {
 
     it("calls onClose when clicking the backdrop, but not when clicking inside modal content", () => {
         render(
-            <AppModal
+            <Modal
                 selectedApp={app1}
                 lastSelectedApps={[app2]}
                 onSelect={onSelect}
@@ -84,6 +84,31 @@ describe("AppModal component", () => {
         onClose.mockClear()
 
         const title = screen.getByText(app1.name)
+        fireEvent.click(title)
+        expect(onClose).not.toHaveBeenCalled()
+    })
+
+        it("renders lastSelectedApp info (name, image and external link)", () => {
+        render(
+            <Modal
+                selectedApp={app1}
+                lastSelectedApps={[app2]}
+                onSelect={onSelect}
+                onClose={onClose}
+            />
+        )
+
+        const backdrop = document.querySelector(
+            ".modal-backdrop"
+        ) as HTMLElement
+        expect(backdrop).toBeInTheDocument()
+
+        fireEvent.click(backdrop)
+        expect(onClose).toHaveBeenCalledTimes(1)
+
+        onClose.mockClear()
+
+        const title = screen.getByText(app2.name)
         fireEvent.click(title)
         expect(onClose).not.toHaveBeenCalled()
     })

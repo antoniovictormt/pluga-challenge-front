@@ -4,7 +4,7 @@ import { forwardRef } from "react"
 
 import { AppModalProps } from "@/types"
 
-export const AppModal = forwardRef<HTMLDialogElement, AppModalProps>(
+export const Modal = forwardRef<HTMLDialogElement, AppModalProps>(
     ({ selectedApp, lastSelectedApps, onSelect, onClose }, ref) => {
         return (
             <dialog
@@ -108,4 +108,4 @@ export const AppModal = forwardRef<HTMLDialogElement, AppModalProps>(
     }
 )
 
-AppModal.displayName = "AppModal"
+Modal.displayName = "Modal"

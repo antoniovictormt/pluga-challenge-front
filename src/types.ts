@@ -43,3 +43,11 @@ export type AppModalProps = {
     onSelect: (app: PlugaApp) => void
     onClose: () => void
 }
+
+export type ListContentProps = {
+    apps: PlugaApp[]
+    search: string
+    page: number
+    setPage: (page: number) => void
+    handleSelectedApp: (app: PlugaApp) => void
+}

@@ -9,6 +9,7 @@ export function Pagination({ page, maxPage, setPage }: PaginationProps) {
                 <button
                     onClick={() => setPage(Math.max(page - 1, 1))}
                     className={`join-item btn ${page === 1 ? "btn-disabled" : ""}`}
+                    data-testid="previous-page-btn"
                 >
                     <Image
                         src="/icons/chevron-left.svg"
