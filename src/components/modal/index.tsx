@@ -76,7 +76,7 @@ export const Modal = forwardRef<HTMLDialogElement, AppModalProps>(
                                     </figure>
 
                                     <div className="card-body min-h-17 justify-center text-center">
-                                        <h4 className="text-base-100">
+                                        <h4>
                                             {app.name}
                                         </h4>
                                     </div>
